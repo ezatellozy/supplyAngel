@@ -5,38 +5,37 @@
       <Breadcrumb :links="breadcrumb"></Breadcrumb>
       <!-- end:: breadcrumb -->
 
-      <div class="title_box">
+      <!-- end::title_box -->
+      <div class="title_box flex">
         <h2>وظائف مشتريات و مخازن</h2>
       </div>
-      <!-- end::title_box -->
-
-      <!-- start::filter_wrapper -->
-
-      <!-- end::filter_wrapper -->
-
-      <b-tabs>
-        <b-tab title="وظائف">
-          <JobsFilter @handle-form="handleFilter"></JobsFilter>
-          <div class="row">
-            <div class="col-lg-6" v-for="item in jobs" :key="item.id">
-              <JobCard :item="item" />
-            </div>
-          </div>
-          <!-- end::tenders_wrapper -->
-        </b-tab>
-        <b-tab title="موظفين">
-          <div class="agents_wrapper">
-            <div class="row">
-              <div class="col-lg-6" v-for="item in jobs" :key="item.id">
-                <JobCard :item="item" />
-              </div>
-              <!-- end::col -->
-            </div>
-            <!-- end::row -->
-          </div>
-          <!-- end::tenders_wrapper -->
-        </b-tab>
-      </b-tabs>
+      <div class="filter_buttons">
+        <button
+          type="buton"
+          class="btn btn-defaut"
+          :class="{ active: queryType == 'jobs' }"
+          @click="toggleType('jobs')"
+        >
+          وظائف
+        </button>
+        <button
+          type="buton"
+          class="btn btn-defaut"
+          :class="{
+            active: queryType == 'employees',
+          }"
+          @click="toggleType('employees')"
+        >
+          موظفين
+        </button>
+      </div>
+      <!-- end::filter_buttons -->
+      <JobsFilter @handle-form="handleFilter"></JobsFilter>
+      <div class="row">
+        <div class="col-lg-6" v-for="item in jobs" :key="item.id">
+          <JobCard :item="item" />
+        </div>
+      </div>
 
       <!-- end::tenders_wrapper -->
     </div>
@@ -67,7 +66,7 @@ export default {
   data() {
     return {
       breadcrumb: [{ name: "jobs", title: "وظائف مشتريات و مخازن" }],
-
+      queryType: "jobs",
       // jobs: null,
     };
   },
@@ -100,6 +99,11 @@ export default {
           this.TriggerNotify("error", this.notify.message);
         });
     },
+    toggleType(query) {
+      this.queryType = query;
+
+      this.$axios.get(query).then((res) => (this.jobs = res.data.data));
+    },
   },
 };
 </script>
@@ -107,5 +111,24 @@ export default {
 <style lang="scss" scoped>
 .tenders_list_wrapper {
   padding-block: 60px;
+  .filter_buttons {
+    margin-top: 60px;
+    transform: translateY(-30px);
+    .btn {
+      padding: 8px 15px;
+      background-color: transparent;
+      border: none;
+      color: #919191;
+      font-size: 18px;
+      font-weight: 500;
+      border-radius: 8px !important;
+      box-shadow: none;
+      transition: all 0.25s;
+      &.active {
+        background-color: #648dc4;
+        color: #fff;
+      }
+    }
+  }
 }
 </style>

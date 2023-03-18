@@ -1,38 +1,35 @@
 <template>
-  <div class="filter_main_wrapper">
+  <div class="jobs_filter">
     <form @submit.prevent="handleForm">
       <div class="form-group">
-        <div class="input-group">
-          <!-- end::wrapper -->
-          <client-only>
-            <div class="row">
-              <div class="col-6">
-                <multiselect
-                  :options="categories"
-                  v-model="form.category"
-                  placeholder="الدولة"
-                  track-by="value"
-                  label="name"
-                  id="category"
-                  :show-labels="false"
-                >
-                </multiselect>
-              </div>
-              <div class="col-6">
-                <multiselect
-                  :options="countries"
-                  v-model="form.country"
-                  :placeholder="`الدولة`"
-                  track-by="value"
-                  label="name"
-                  id="country"
-                >
-                </multiselect>
-              </div>
-            </div>
-          </client-only>
-          <!-- end::wrapper -->
-        </div>
+        <client-only>
+          <div class="input-group">
+            <!-- end::wrapper -->
+            <multiselect
+              :options="categories"
+              v-model="form.category"
+              placeholder="الدولة"
+              track-by="id"
+              label="name"
+              :show-labels="false"
+            >
+            </multiselect>
+            <!-- end::wrapper -->
+          </div>
+          <div class="input-group">
+            <!-- end::wrapper -->
+            <multiselect
+              :options="countries"
+              v-model="form.country"
+              :placeholder="`الدولة`"
+              track-by="id"
+              label="name"
+              :show-labels="false"
+            >
+            </multiselect>
+            <!-- end::wrapper -->
+          </div>
+        </client-only>
         <!-- end::input-group -->
       </div>
       <!-- end::form-group -->
@@ -92,75 +89,37 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.filter_main_wrapper {
-  margin-bottom: 20px;
+<style lang="scss">
+.jobs_filter {
   .form-group {
-    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
     .input-group {
-      position: relative;
-      // .icon {
-      //   position: absolute;
-      //   top: 50%;
-      //   right: 10px;
-      //   transform: translateY(-50%);
-      //   width: 18px;
-      //   height: 18px;
-      //   fill: #919191;
-      //   z-index: 10;
-      // }
-      .form-control {
-        height: 60px;
-        background-color: #efefef;
-        border: none;
-        padding-inline-start: 40px;
-        box-shadow: none;
-        border-radius: 0;
+      display: block;
+      width: fit-content;
+      &:first-child {
+        margin-inline-end: 8px;
       }
-      .wrapper {
-        // width: 50%;
-        display: flex;
-        align-items: center;
-        // &.full-width {
-        //   width: 85%;
-        // }
-        // &.w-15 {
-        //   width: 15%;
-        //   .btn-default {
-        //     width: 100%;
-        //   }
-        // }
-        .multiselect {
-          width: calc(100% / 2);
-          min-height: 60px;
-          &:first-child {
-            margin-inline-end: 5px !important;
-            .multiselect__tags {
-              border-inline-end: none;
-            }
-          }
-          .multiselect__select {
-            top: 16px;
-          }
-          .multiselect__tags {
-            display: flex;
-            align-items: center;
-            min-height: 60px;
-            border-radius: 0;
-            border: 2px solid #648dc4;
-          }
-          .multiselect__placeholder {
-            color: #000;
-          }
-        }
-        .btn-default {
-          width: calc(100% / 3);
-          background-color: #648dc4;
-          color: #fff;
-          border-radius: 0;
-          height: 60px;
-        }
-      }
+    }
+  }
+  .multiselect {
+    width: 200px;
+    // width: calc(100% / 3);
+    min-height: 60px;
+
+    .multiselect__select {
+      top: 16px;
+    }
+    .multiselect__tags {
+      display: flex;
+      align-items: center;
+      min-height: 60px;
+      border-radius: 8px;
+      border: 1px solid #648dc4;
+    }
+    .multiselect__placeholder {
+      color: #000;
     }
   }
 }
