@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .vsc-popup {
   right: auto !important;
   left: 10px !important;
@@ -67,5 +67,13 @@ export default {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+}
+.vsc-popup-button {
+  width: 45px !important;
+  height: 45px !important;
+  img {
+    width: 20px;
+    height: 20px;
+  }
 }
 </style>

@@ -9,31 +9,42 @@
       <div class="title_box flex">
         <h2>وظائف مشتريات و مخازن</h2>
       </div>
-      <div class="filter_buttons">
-        <button
-          type="buton"
-          class="btn btn-defaut"
-          :class="{ active: queryType == 'jobs' }"
-          @click="toggleType('jobs')"
-        >
-          وظائف
-        </button>
-        <button
-          type="buton"
-          class="btn btn-defaut"
-          :class="{
-            active: queryType == 'employees',
-          }"
-          @click="toggleType('employees')"
-        >
-          موظفين
-        </button>
+      <div class="d-flex justify-content-between flex-wrap mt-4 mb-2">
+        <div class="filter_buttons">
+          <button
+            type="buton"
+            class="btn btn-defaut"
+            :class="{ active: queryType == 'jobs' }"
+            @click="toggleType('jobs')"
+          >
+            وظائف
+          </button>
+          <button
+            type="buton"
+            class="btn btn-defaut"
+            :class="{
+              active: queryType == 'employees',
+            }"
+            @click="toggleType('employees')"
+          >
+            موظفين
+          </button>
+        </div>
+        <div class="links">
+          <nuxt-link to="/jobs/find-job" class="find-job">
+            بحث عن وظيفة
+          </nuxt-link>
+          <nuxt-link to="/jobs/add-job" class="add-job">
+            إضافة إعلان توظيف
+          </nuxt-link>
+        </div>
       </div>
       <!-- end::filter_buttons -->
       <JobsFilter @handle-form="handleFilter"></JobsFilter>
       <div class="row">
         <div class="col-lg-6" v-for="item in jobs" :key="item.id">
-          <JobCard :item="item" />
+          <JobCard :item="item" v-if="queryType == 'jobs'" />
+          <EmployCard :item="item" v-if="queryType == 'employees'" />
         </div>
       </div>
 
@@ -46,13 +57,14 @@
 import Breadcrumb from "~/components/shared/Breadcrumb.vue";
 import JobCard from "~/components/shared/JobCard.vue";
 import JobsFilter from "~/components/shared/JobsFilter.vue";
+import EmployCard from "~/components/shared/EmployCard.vue";
 
 // importing vuex tools
 // import { mapGetters } from "vuex";
 
 export default {
-  name: "Jobs",
-  components: { Breadcrumb, JobsFilter, JobCard },
+  name: "jobs",
+  components: { Breadcrumb, JobsFilter, JobCard, EmployCard },
 
   async asyncData(context) {
     try {
@@ -67,36 +79,25 @@ export default {
     return {
       breadcrumb: [{ name: "jobs", title: "وظائف مشتريات و مخازن" }],
       queryType: "jobs",
+
       // jobs: null,
     };
   },
 
   methods: {
-    // async refetchTenders(page) {
-    //   await this.$axios.$get(`/tenders?page=${page}`).then((res) => {
-    //     this.$store.commit("tenders/SET_TENDERS_DATA", res.data);
-    //     this.$store.commit("tenders/SET_TENDERS_META", res.meta);
-    //   });
-    // },
     async handleFilter(form) {
       await this.$axios
-        .$get("/tenders", {
+        .$get("/jobs", {
           params: {
-            keyword: form.keyword,
-            category_id: form.category != null ? form.category.id : null,
+            city_id: form.city != null ? form.city.id : null,
             country_id: form.country != null ? form.country.id : null,
           },
         })
         .then((res) => {
-          this.$store.commit("tenders/SET_TENDERS_DATA", res.data);
+          this.jobs = res.data;
         })
         .catch((err) => {
-          const req_error = {
-            data: err.response,
-            type: "catch",
-          };
-          this.error_handler(req_error);
-          this.TriggerNotify("error", this.notify.message);
+          this.TriggerNotify("error", err.message);
         });
     },
     toggleType(query) {
@@ -112,8 +113,8 @@ export default {
 .tenders_list_wrapper {
   padding-block: 60px;
   .filter_buttons {
-    margin-top: 60px;
-    transform: translateY(-30px);
+    margin-bottom: 20px;
+
     .btn {
       padding: 8px 15px;
       background-color: transparent;
@@ -127,6 +128,28 @@ export default {
       &.active {
         background-color: #648dc4;
         color: #fff;
+      }
+    }
+  }
+  .links {
+    margin-bottom: 20px;
+    display: flex;
+    a {
+      border: 1px solid $base-color;
+      padding: 5px 16px;
+      border-radius: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.find-job {
+        margin-inline-end: 10px;
+        background: $base-color;
+        color: #fff;
+        transition: 0.3s;
+        &:hover {
+          background: $btn-hover-color;
+        }
       }
     }
   }

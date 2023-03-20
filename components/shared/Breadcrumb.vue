@@ -11,9 +11,9 @@
 
 <script>
 export default {
-  name: 'BreadCrumb',
-  props: ['links'],
-}
+  name: "BreadCrumb",
+  props: ["links"],
+};
 </script>
 
 <style lang="scss" scoped>
@@ -35,7 +35,7 @@ export default {
         }
       }
       &::after {
-        content: '>';
+        content: ">";
         position: absolute;
         top: 50%;
         left: -5px;

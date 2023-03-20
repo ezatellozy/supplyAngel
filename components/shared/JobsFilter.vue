@@ -6,12 +6,13 @@
           <div class="input-group">
             <!-- end::wrapper -->
             <multiselect
-              :options="categories"
-              v-model="form.category"
-              placeholder="الدولة"
+              :options="countries"
+              v-model="form.country"
+              :placeholder="`الدولة`"
               track-by="id"
               label="name"
               :show-labels="false"
+              @input="handleForm"
             >
             </multiselect>
             <!-- end::wrapper -->
@@ -19,12 +20,13 @@
           <div class="input-group">
             <!-- end::wrapper -->
             <multiselect
-              :options="countries"
-              v-model="form.country"
-              :placeholder="`الدولة`"
+              :options="cities"
+              v-model="form.city"
+              placeholder="المدينة"
               track-by="id"
               label="name"
               :show-labels="false"
+              @input="handleForm"
             >
             </multiselect>
             <!-- end::wrapper -->
@@ -56,7 +58,7 @@ export default {
       form: {
         keyword: null,
         country: null,
-        category: null,
+        city: null,
       },
     };
   },
@@ -71,14 +73,14 @@ export default {
     if (this.$store.getters["localStorage/get_countries"].length == 0) {
       await this.$store.dispatch("localStorage/get_countries");
     }
-    if (this.$store.getters["localStorage/get_categories"].length == 0) {
-      await this.$store.dispatch("localStorage/get_categories");
+    if (this.$store.getters["localStorage/get_cities"].length == 0) {
+      await this.$store.dispatch("localStorage/get_cities");
     }
   },
   computed: {
     ...mapGetters({
       countries: ["localStorage/get_countries"],
-      categories: ["localStorage/get_categories"],
+      cities: ["localStorage/get_cities"],
     }),
   },
   methods: {
