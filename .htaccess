@@ -6,8 +6,8 @@
   RewriteEngine On
   
   RewriteCond %{SERVER_PORT} 80
-  RewriteRule ^index.php(.*) http://%{HTTP_HOST}:49007/$1 [P,L]
-  RewriteRule (.*) http://%{HTTP_HOST}:49007/$1 [P,L]
+  RewriteRule ^index.php(.*) http://%{HTTP_HOST}:3035/$1 [P,L]
+  RewriteRule (.*) http://%{HTTP_HOST}:3035/$1 [P,L]
   
   RewriteBase /
   RewriteRule ^index\.html$ - [L]

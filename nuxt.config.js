@@ -119,4 +119,7 @@ export default {
     },
     postcss: false,
   },
+  server: {
+    port: 3035,
+  },
 }
